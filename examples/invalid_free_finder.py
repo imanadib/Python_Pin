@@ -1,4 +1,4 @@
-import pin, sys
+import pypin, sys
 
 allocated_buffers = []
 
@@ -21,17 +21,17 @@ def free(a, b):
         print "freeing something that wasn't malloc'd (%d)" % (b)
 
 def image_load(img):
-    rtn = pin.RTN_FindByName(img, "malloc")
-    if pin.RTN_Valid(rtn):
-        pin.RTN_Open(rtn)
-        pin.RTN_InsertCall(pin.IPOINT_BEFORE, "malloc", rtn, 1, malloc_before)
-        pin.RTN_InsertCall(pin.IPOINT_AFTER, "malloc", rtn, 1, malloc_after)
-        pin.RTN_Close(rtn)
+    rtn = pypin.RTN_FindByName(img, "malloc")
+    if pypin.RTN_Valid(rtn):
+        pypin.RTN_Open(rtn)
+        pypin.RTN_InsertCall(pypin.IPOINT_BEFORE, "malloc", rtn, 1, malloc_before)
+        pypin.RTN_InsertCall(pypin.IPOINT_AFTER, "malloc", rtn, 1, malloc_after)
+        pypin.RTN_Close(rtn)
 
-    rtn = pin.RTN_FindByName(img, "free")
-    if pin.RTN_Valid(rtn):
-        pin.RTN_Open(rtn)
-        pin.RTN_InsertCall(pin.IPOINT_BEFORE, "malloc", rtn, 1, free)
-        pin.RTN_Close(rtn)
+    rtn = pypin.RTN_FindByName(img, "free")
+    if pypin.RTN_Valid(rtn):
+        pypin.RTN_Open(rtn)
+        pypin.RTN_InsertCall(pypin.IPOINT_BEFORE, "malloc", rtn, 1, free)
+        pypin.RTN_Close(rtn)
 
-pin.IMG_AddInstrumentFunction(image_load)
+pypin.IMG_AddInstrumentFunction(image_load)
