@@ -141,6 +141,14 @@ SPPY::PyObject* Python_PIN_AddSyscallEntryFunction(SPPY::PyObject* self, SPPY::P
     return Dyno::Py_BuildValue("O", ((SPPY::PyObject *) &Dyno::_Py_TrueStruct));
 }
 
+PyMODINIT_FUNC initpypin(){
+	if (Dyno::DynamicPythonSyscall_Init() == false){
+		return;
+	}
+	if (Dyno::Py_InitModule4("pypin", methods, (char *)NULL, (SPPY::PyObject *)NULL, PYTHON_API_VERSION) == NULL){
+		return;
+	}
+}
 KNOB<string> KnobPythonModule(KNOB_MODE_WRITEONCE, "pintool", "m", "", "the python pintool to import");
 int main(int argc, char** argv) {
 	if (Dyno::DynamicPythonSyscall_Init() == false){
@@ -156,7 +164,7 @@ int main(int argc, char** argv) {
     }
 
 	SPPY::PyObject* pin_module =
-		Dyno::Py_InitModule4("pin", methods, (char *)NULL, (SPPY::PyObject *)NULL, PYTHON_API_VERSION);
+		Dyno::Py_InitModule4("pypin", methods, (char *)NULL, (SPPY::PyObject *)NULL, PYTHON_API_VERSION);
     //SPPY::PyObject* pin_module = Py_InitModule("pin", methods);
     if (pin_module == NULL) {
         printf("Failed to initialize internal pin module\n");
