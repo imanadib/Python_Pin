@@ -39,10 +39,10 @@ void ImageUnload(IMG img, VOID *v);
 void Trace(TRACE trace, VOID *v);
 void Ins_Hook(INS ins, VOID *v);
 
-///static (_Py_NoneStruct) methods2[];
+///static (Dyno::_Py_NoneStruct) methods2[];
 
 static SPPY::PyMethodDef methods[] = {
-//static (SPPY::_Py_NoneStruct) methods[] = {
+//static (Dyno::_Py_NoneStruct) methods[] = {
     {"AddFiniFunction",
         Python_AddFiniFunction,
         METH_VARARGS,
